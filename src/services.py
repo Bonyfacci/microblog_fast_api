@@ -1,6 +1,6 @@
 from sqlalchemy import select, orm
 from sqlalchemy.ext.asyncio import AsyncSession
-from app import models, schemas
+from src import models, schemas
 
 """
 В get_biggest_cities для создания запроса используется новая функция select. 

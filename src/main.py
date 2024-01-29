@@ -2,8 +2,9 @@ import typer
 import asyncio
 
 from fastapi import FastAPI
-# from z_app_fastapi.app.database import init_models
-# from z_app_fastapi.app.routers import users
+
+from src.database import init_models
+from src.routers import users
 
 app = FastAPI()
 cli = typer.Typer()
