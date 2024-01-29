@@ -1,7 +1,7 @@
 # Dependency
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database import SessionLocal
+from src.database import SessionLocal
 
 
 async def get_db() -> AsyncSession:

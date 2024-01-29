@@ -22,7 +22,7 @@ async def create_user(user: schemas.UserCreate, db: AsyncSession = Depends(get_d
         raise HTTPException(status_code=400, detail="User already exists")
 
 
-@router.get("/{user_id}/", response_model=schemas.User, status_code=200)
+@router.get("/{user_id}/", status_code=200)
 async def read_user(user_id: int, db: AsyncSession = Depends(get_db)):
     db_user = await services.get_user(
         database=db,
@@ -33,4 +33,8 @@ async def read_user(user_id: int, db: AsyncSession = Depends(get_db)):
             status_code=404,
             detail="User not found"
         )
-    return db_user
+
+    user = schemas.User.model_validate(db_user)
+    user.posts_count = len(db_user.all_posts)
+
+    return user

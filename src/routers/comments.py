@@ -12,7 +12,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=schemas.Comment, status_code=201)
-async def create_user(comment: schemas.CommentCreate, db: AsyncSession = Depends(get_db)):
+async def create_comment(comment: schemas.CommentCreate, db: AsyncSession = Depends(get_db)):
     new_comment = await services.create_comment(database=db, comment=comment)
     try:
         await db.commit()
@@ -20,17 +20,3 @@ async def create_user(comment: schemas.CommentCreate, db: AsyncSession = Depends
     except IntegrityError:
         await db.rollback()
         raise HTTPException(status_code=400, detail="Comment already exists")
-
-
-@router.get("/{comment_id}/", response_model=schemas.Comment, status_code=200)
-async def read_comment(comment_id: int, db: AsyncSession = Depends(get_db)):
-    db_user = await services.get_comment(
-        database=db,
-        comment_id=comment_id
-    )
-    if not db_user:
-        raise HTTPException(
-            status_code=404,
-            detail="Comment not found"
-        )
-    return db_user

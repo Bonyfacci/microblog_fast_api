@@ -37,9 +37,10 @@ async def get_post(database: AsyncSession, post_id: int):
     return res.scalars().first()
 
 
-async def get_posts(database: AsyncSession):
+async def get_posts(database: AsyncSession, skip: int = 0, limit: int = 10):
     res = await database.execute(
-        select(models.Post))
+        select(models.Post).offset(skip).limit(limit)
+    )
     return res.scalars().all()
 
 
